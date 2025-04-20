@@ -1,27 +1,81 @@
-local ScreenGui = Instance.new("ScreenGui")
-local TeleportButton = Instance.new("TextButton")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local isScriptActivated = false
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.Name = "TeleportGui"
+local function setNoclip(enabled)
+    local character = player.Character
+    if not character then return end
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") and part.CanCollide ~= nil then
+            part.CanCollide = not enabled
+        end
+    end
+end
 
-TeleportButton.Parent = ScreenGui
-TeleportButton.Text = "Tp đến 10000m"
-TeleportButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TeleportButton.Font = Enum.Font.SourceSans
-TeleportButton.TextSize = 20
-TeleportButton.Size = UDim2.new(0, 150, 0, 50)
-TeleportButton.Position = UDim2.new(0, 20, 0, 100)
-local AnchorPoint = Vector2.new(0, 0)
+local function teleportForward(distance)
+    local character = player.Character
+    if not character then return end
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.new(0, 0, -distance)
+    end
+end
 
-TeleportButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        local humanoidRootPart = player.Character.HumanoidRootPart
-        local direction = humanoidRootPart.CFrame.LookVector
-        humanoidRootPart.CFrame = humanoidRootPart.CFrame + (direction * 10000)
-        print("Đã dịch chuyển khoảng cách 10,000 mét tới phía trước!")
-    else
-        print("Không thể thực hiện teleport vì nhân vật chưa sẵn sàng!")
+local function activateScript()
+    if isScriptActivated then return end
+    isScriptActivated = true
+
+    local ScreenGui = Instance.new("ScreenGui")
+    local Frame = Instance.new("Frame")
+    local EmptyFrame = Instance.new("Frame")
+    local ButtonsFrame = Instance.new("Frame")
+    local TeleportButton = Instance.new("TextButton")
+
+    ScreenGui.Parent = player:WaitForChild("PlayerGui")
+    ScreenGui.Name = "TeleportAndNoclipGui"
+
+    Frame.Parent = ScreenGui
+    Frame.Size = UDim2.new(0, 400, 0, 200)
+    Frame.Position = UDim2.new(0.5, -200, 0.5, -100)
+    Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Frame.BackgroundTransparency = 0.2
+    Frame.Active = true
+    Frame.Draggable = true
+
+    EmptyFrame.Parent = Frame
+    EmptyFrame.Size = UDim2.new(0.5, 0, 1, 0)
+    EmptyFrame.Position = UDim2.new(0, 0, 0, 0)
+    EmptyFrame.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    EmptyFrame.BackgroundTransparency = 0.5
+
+    ButtonsFrame.Parent = Frame
+    ButtonsFrame.Size = UDim2.new(0.5, 0, 1, 0)
+    ButtonsFrame.Position = UDim2.new(0.5, 0, 0, 0)
+    ButtonsFrame.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    ButtonsFrame.BackgroundTransparency = 0.3
+
+    TeleportButton.Parent = ButtonsFrame
+    TeleportButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+    TeleportButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+    TeleportButton.Text = "TP +10k & Noclip"
+    TeleportButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TeleportButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+    TeleportButton.Font = Enum.Font.SourceSans
+    TeleportButton.TextScaled = true
+
+    TeleportButton.MouseButton1Click:Connect(function()
+        setNoclip(true)
+        task.wait(0.2)
+        teleportForward(10000)
+        task.wait(0.2)
+        setNoclip(false)
+    end)
+end
+
+Players.PlayerChatted:Connect(function(playerWhoChatted, message)
+    if string.lower(message) == "all" then
+        if playerWhoChatted == player then
+            activateScript()
+        end
     end
 end)

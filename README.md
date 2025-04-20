@@ -1,1 +1,27 @@
-bG9jYWwgU2NyZWVuR3VpID0gSW5zdGFuY2UubmV3KCJTY3JlZW5HdWkiKQpsb2NhbCBUZWxlcG9ydEJ1dHRvbiA9IEluc3RhbmNlLm5ldygiVGV4dEJ1dHRvbiIpCgotLSBHxqFuIEdVSSB24oCUIFBsYXllcgpTY3JlZW5HdWkuUGFyZW50ID0gZ2FtZS5QbGF5ZXJzLkxvY2FsUGxheWVyOldhaXRGb3JDaGlsZCgiUGxheWVyR3VpIikKU2NyZWVuR3VpLk5hbWUgPSAiVGVsZXBvcnRHdWkiCgotLSBD4bqhaSBk4bqtYyBjaG8gbsSDdCBUZWxlcG9ydApUZWxlcG9ydEJ1dHRvbi5QYXJlbnQgPSBTY3JlZW5HdWkKVGVsZXBvcnRCdXR0b24uVGV4dCA9ICJUcCB04bqleG0gMTAwMDBtIgpUZWxlcG9ydEJ1dHRvbi5CYWNrZ3JvdW5kQ29sb3IzID0gQ29sb3IzLmZyb21SV0IoMCwgMTcwLCAyNTUpClRlbGVwb3J0QnV0dG9uLlRleHRDb2xvcjMgPSBDb2xvcjMuZnJvbVJXQigyNTUsIDI1NSwgMjU1KQpUZWxlcG9ydEJ1dHRvbi5Gb250ID0gRW51bS5Gb250LlNvdXJjZVNhbnMKVGVsZXBvcnRCdXR0b24uVGV4dFNpemUgPSAyMApUZWxlcG9ydEJ1dHRvbi5TaXplID0gVURpbTIubmV3KDAsIDE1MCwgMCwgNTApIC0tIEtow6FjaCB04bqleG0gxJHGsCBraMOhdW5nIGNoYXQKVGVsZXBvcnRCdXR0b24uUG9zaXRpb24gPSBVRGltMi5uZXcoMCwgMjAsIDAsIDEwMCkgLS0gVuG7iyB0cuG7iyBnaeG7h3AgdHLhu51pCkFuaG9yUG9pbnQgPSBWaWN0b3IuY2luZXcoMCwgMCkKCi0tIFRo6E0gaOG7nSBkb25nIGto4bq/IG5ow6JuIFRlYWxlcG9ydApUZWxlcG9ydEJ1dHRvbi5Nb3VzZUJ1dHRvbjFDbGljay5Db25uZWN0KGZ1bmN0aW9uKCkKICAgIC0tIEzhuqFpIG5ow6AgduG7iyBodeG7gyB0aOG7nQogICAgbG9jYWwgcGxheWVyID0gZ2FtZS5QbGF5ZXJzLkxvY2FsUGxheWVyCiAgICBpZiBwbGF5ZXIgYW5kIHBsYXllci5DaGFyYWN0ZXIgYW5kIHBsYXllci5DaGFyYWN0ZXI6RmluZEZpcnN0Q2hpbGQoIkh1bWFub2lkUm9vdFBhcnQiKSB0aGVuCiAgICAgICAgbG9jYWwgaHVtYW5vaWRSb290UGFydCA9IHBsYXllci5DaGFyYWN0ZXIuSHVtYW5vaWRSb290UGFydAoKICAgICAgICAtLSBUaOG7sWMgdOG6oW4gaOG7lyBkaOG7hyBjaHV54buBdCAodGhlbyBodeG7uyBuaMOibiBjdWEgbmjhuq10KQogICAgICAgIGxvY2FsIGRpcmVjdGlvbiA9IGh1bWFub2lkUm9vdFBhcnQuQ0ZyYW1lLkxvb2tWZWN0b3IKICAgICAgICBodW1hbm9pZFJvb3RQYXJ0LkNGcmFtZSA9IGh1bWFub2lkUm9vdFBhcnQuQ0ZyYW1lICsgKGRpcmVjdGlvbiAqIDEwMDAwKSAtLSDEkcawIMSRxrAgMTAuMDAwIG3hu5V0CiAgICAgICAgcHJpbnQoIsSQ4bupIMSRxrAgZOG7o2NoIHBo4bq7YyAxMC4wMDAgbcahdCB0aOG7nSBuaMOibiBjaOG7iWEgbiEoIikKICAgIGVsc2UKICAgICAgICBwcmludCgiS2jhuq9uZyB04bqhIHRow6B5IG5o4buHIHRo4bqtcCBk4bqldSBjaOG7iWEhIikKICAgIGVuZAplbmQp
+local ScreenGui = Instance.new("ScreenGui")
+local TeleportButton = Instance.new("TextButton")
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Name = "TeleportGui"
+
+TeleportButton.Parent = ScreenGui
+TeleportButton.Text = "Tp đến 10000m"
+TeleportButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TeleportButton.Font = Enum.Font.SourceSans
+TeleportButton.TextSize = 20
+TeleportButton.Size = UDim2.new(0, 150, 0, 50)
+TeleportButton.Position = UDim2.new(0, 20, 0, 100)
+local AnchorPoint = Vector2.new(0, 0)
+
+TeleportButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local humanoidRootPart = player.Character.HumanoidRootPart
+        local direction = humanoidRootPart.CFrame.LookVector
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame + (direction * 10000)
+        print("Đã dịch chuyển khoảng cách 10,000 mét tới phía trước!")
+    else
+        print("Không thể thực hiện teleport vì nhân vật chưa sẵn sàng!")
+    end
+end)

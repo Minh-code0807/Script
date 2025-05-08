@@ -1,0 +1,6 @@
+-- Tạo một part mới
+local part = Instance.new("Part")
+part.Size = Vector3.new(4, 4, 4) -- Kích thước của part
+part.Anchored = true -- Đảm bảo part không bị rơi vì trọng lực
+part.Position = Vector3.new(128.31, 30.56, 29739.79) -- Đặt vị trí của part
+part.Parent = game.Workspace -- Đặt part trong Workspace để nó xuất hiện
